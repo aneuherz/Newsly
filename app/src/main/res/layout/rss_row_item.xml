@@ -5,13 +5,23 @@
     android:padding="10dp">
 
     <TextView
-        android:id="@+id/itemTitle"
+        android:id="@+id/itemRessort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:text="News Title"
+        android:text="RESSORT | DERSTANDARD.AT"
         android:textStyle="bold"
-         android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimary"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/itemTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="News Title"
+        android:layout_below="@+id/itemRessort"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp" />
 
 

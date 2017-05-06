@@ -61,9 +61,6 @@ public class RssArrayAdapter extends ArrayAdapter<RssEntry> {
         viewHolder.txtDateAndAuthor.setText(entry.getFormattedDateAndAuthor());
 
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels;
-        float dpHeight = displayMetrics.heightPixels;
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             String htmlText = Html.fromHtml(entry.getDescription(), Html.FROM_HTML_MODE_COMPACT, Images, null).toString();
