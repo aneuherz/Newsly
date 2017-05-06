@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by aneuh on 29.04.2017.
@@ -101,7 +102,7 @@ public class RssParser {
         String dateTimeString = readTag(parser, tag);
         Date date = null;
 
-        SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+        SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z", Locale.US);
         try {
             date = format.parse(dateTimeString);
         } catch (ParseException e) {

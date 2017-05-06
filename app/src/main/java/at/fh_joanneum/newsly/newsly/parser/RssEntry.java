@@ -75,7 +75,12 @@ public class RssEntry {
     }
 
     public String getFormattedDateAndAuthor() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMAN);
-        return dateFormat.format(getPubDate()) + ", " + getAuthor();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+
+        if (getPubDate() != null) {
+            return dateFormat.format(getPubDate()) + ", " + getAuthor();
+        }
+
+        return "";
     }
 }
