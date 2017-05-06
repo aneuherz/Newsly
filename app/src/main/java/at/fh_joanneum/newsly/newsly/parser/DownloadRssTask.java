@@ -46,9 +46,6 @@ public class DownloadRssTask extends AsyncTask<String, Void, List<RssEntry>> {
         // Instantiate the parser
         RssParser rssParser = new RssParser();
         List<RssEntry> entries = null;
-        String title = null;
-        String url = null;
-        String summary = null;
 
         try {
             stream = downloadUrl(urlString);

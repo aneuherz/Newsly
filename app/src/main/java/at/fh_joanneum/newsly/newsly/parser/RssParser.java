@@ -68,11 +68,13 @@ public class RssParser {
 
     private RssEntry readEntry(XmlPullParser parser) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, "item");
+
         String title = null;
         String description = null;
         String link = null;
         Date pubDate = null;
         String author = null;
+
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.getEventType() != XmlPullParser.START_TAG) {
                 continue;
@@ -99,7 +101,6 @@ public class RssParser {
         String dateTimeString = readTag(parser, tag);
         Date date = null;
 
-        String dtStart = "Sat, 29 Apr 2017 17:34:31 +0200";
         SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
         try {
             date = format.parse(dateTimeString);

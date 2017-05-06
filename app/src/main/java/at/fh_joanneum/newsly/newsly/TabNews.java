@@ -1,28 +1,17 @@
 package at.fh_joanneum.newsly.newsly;
 
-import android.app.ListActivity;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.fh_joanneum.newsly.newsly.adapter.RssArrayAdapter;
 import at.fh_joanneum.newsly.newsly.parser.DownloadRssTask;
 import at.fh_joanneum.newsly.newsly.parser.RssEntry;
 
@@ -31,10 +20,8 @@ import at.fh_joanneum.newsly.newsly.parser.RssEntry;
  */
 
 public class TabNews extends ListFragment implements DownloadRssTask.AsyncResponse {
-    //LIST OF ARRAY STRINGS WHICH WILL SERVE AS LIST ITEMS
-    ArrayList<String> listItems=new ArrayList<String>();
-    //DEFINING A STRING ADAPTER WHICH WILL HANDLE THE DATA OF THE LISTVIEW
-    ArrayAdapter<String> adapter;
+    private ArrayList<String> listItems=new ArrayList<String>();
+    private RssArrayAdapter adapter;
 
     @Nullable
     @Override
@@ -52,14 +39,7 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
 
     @Override
     public void processFinish(List<RssEntry> output) {
-        for (RssEntry entry:
-                output) {
-            listItems.add(entry.toString());
-        }
-
-
-        adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, listItems);
+        adapter = new RssArrayAdapter(getActivity(), output);
         setListAdapter(adapter);
     }
 }

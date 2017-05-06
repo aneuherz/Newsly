@@ -1,6 +1,8 @@
 package at.fh_joanneum.newsly.newsly.parser;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by aneuh on 29.04.2017.
@@ -70,5 +72,10 @@ public class RssEntry {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getFormattedDateAndAuthor() {
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.GERMAN);
+        return dateFormat.format(getPubDate()) + ", " + getAuthor();
     }
 }
