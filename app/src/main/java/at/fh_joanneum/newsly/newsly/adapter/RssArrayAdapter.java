@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import at.fh_joanneum.newsly.newsly.R;
@@ -36,7 +38,9 @@ public class RssArrayAdapter extends ArrayAdapter<RssEntry> {
         TextView txtTitle;
         TextView txtDateAndAuthor;
         TextView txtDescription;
+        TextView txtRessortAndSource;
     }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -54,8 +58,11 @@ public class RssArrayAdapter extends ArrayAdapter<RssEntry> {
         viewHolder.txtTitle = (TextView) convertView.findViewById(R.id.itemTitle);
         viewHolder.txtDateAndAuthor = (TextView) convertView.findViewById(R.id.itemDateAndAuthor);
         viewHolder.txtDescription = (TextView) convertView.findViewById(R.id.itemDescription);
+        viewHolder.txtRessortAndSource = (TextView) convertView.findViewById(R.id.itemRessort);
 
         convertView.setTag(viewHolder);
+
+        viewHolder.txtRessortAndSource.setText(entry.getRessort() + " | " + entry.getSource());
 
         viewHolder.txtTitle.setText(entry.getTitle());
         viewHolder.txtDateAndAuthor.setText(entry.getFormattedDateAndAuthor());
@@ -65,9 +72,7 @@ public class RssArrayAdapter extends ArrayAdapter<RssEntry> {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             String htmlText = Html.fromHtml(entry.getDescription(), Html.FROM_HTML_MODE_COMPACT, Images, null).toString();
             viewHolder.txtDescription.setText(stripHtml(htmlText));
-        }
-        else
-        {
+        } else {
             String htmlText = Html.fromHtml(entry.getDescription(), Images, null).toString();
             viewHolder.txtDescription.setText(stripHtml(htmlText));
         }
@@ -75,6 +80,7 @@ public class RssArrayAdapter extends ArrayAdapter<RssEntry> {
         // Return the completed view to render on screen
         return convertView;
     }
+
     private Html.ImageGetter Images = new Html.ImageGetter() {
 
         public Drawable getDrawable(String source) {

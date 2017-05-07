@@ -14,6 +14,8 @@ public class RssEntry {
     private String link;
     private String description;
     private Date pubDate;
+    private String ressort;
+    private String source;
 
     public RssEntry(String title, String author, String link, String description, Date pubDate) {
         this.title = title;
@@ -72,6 +74,22 @@ public class RssEntry {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getRessort() {
+        return ressort;
+    }
+
+    public void setRessort(String ressort) {
+        this.ressort = ressort;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     public String getFormattedDateAndAuthor() {

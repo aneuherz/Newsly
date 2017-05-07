@@ -16,14 +16,15 @@ import java.util.Calendar;
 import java.util.List;
 
 import at.fh_joanneum.newsly.newsly.R;
+import at.fh_joanneum.newsly.newsly.db.entity.LinkSourceRessort;
 
 /**
  * Created by aneuh on 29.04.2017.
  */
 
-public class DownloadRssTask extends AsyncTask<String, Void, List<RssEntry>> {
+public class DownloadRssTask extends AsyncTask<LinkSourceRessort, Void, List<RssEntry>> {
     @Override
-    protected List<RssEntry> doInBackground(String... urls) {
+    protected List<RssEntry> doInBackground(LinkSourceRessort... urls) {
         return loadXmlFromNetwork(urls[0]);
     }
 
@@ -33,32 +34,36 @@ public class DownloadRssTask extends AsyncTask<String, Void, List<RssEntry>> {
 
     public AsyncResponse delegate = null;
 
-    public DownloadRssTask(AsyncResponse delegate){
+    public DownloadRssTask(AsyncResponse delegate) {
         this.delegate = delegate;
     }
+
     @Override
     protected void onPostExecute(List<RssEntry> result) {
         delegate.processFinish(result);
     }
 
-    public List<RssEntry> loadXmlFromNetwork(String urlString)  {
+    public List<RssEntry> loadXmlFromNetwork(LinkSourceRessort linkSourceRessort) {
         InputStream stream = null;
         // Instantiate the parser
         RssParser rssParser = new RssParser();
         List<RssEntry> entries = null;
 
         try {
-            stream = downloadUrl(urlString);
+            stream = downloadUrl(linkSourceRessort.getLink());
             entries = rssParser.parse(stream);
+            for (RssEntry entry :
+                    entries) {
+                entry.setSource(linkSourceRessort.getSource());
+                entry.setRessort(linkSourceRessort.getRessort());
+            }
             // Makes sure that the InputStream is closed after the app is
             // finished using it.
-        }
-        catch (XmlPullParserException e) {
+        } catch (XmlPullParserException e) {
             Log.e("Error", e.getStackTrace().toString());
         } catch (IOException e) {
             Log.e("Error", e.getStackTrace().toString());
-        }
-        finally {
+        } finally {
             if (stream != null) {
                 try {
                     stream.close();
