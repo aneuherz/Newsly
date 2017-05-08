@@ -1,13 +1,11 @@
 package at.fh_joanneum.newsly.newsly;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 public class StartScreenActivity extends AppCompatActivity {
     @Override

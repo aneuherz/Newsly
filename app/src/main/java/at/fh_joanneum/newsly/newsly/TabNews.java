@@ -1,6 +1,9 @@
 package at.fh_joanneum.newsly.newsly;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
@@ -18,6 +21,7 @@ import at.fh_joanneum.newsly.newsly.adapter.RssArrayAdapter;
 import at.fh_joanneum.newsly.newsly.db.entity.LinkSourceRessort;
 import at.fh_joanneum.newsly.newsly.parser.DownloadRssTask;
 import at.fh_joanneum.newsly.newsly.parser.RssEntry;
+import at.fh_joanneum.newsly.newsly.sensor.ShakeDetector;
 
 /**
  * Created by aneuh on 29.04.2017.
@@ -27,9 +31,12 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
 
     private RssArrayAdapter adapter;
 
-    private ListView listView;
     private RessortService ressortService;
     private SwipeRefreshLayout newsLayout;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private ShakeDetector shakeDetector;
 
     @Nullable
     @Override
@@ -41,7 +48,7 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         adapter = new RssArrayAdapter(getActivity(), new ArrayList<RssEntry>());
-        listView = getListView();
+        final ListView listView = getListView();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
@@ -63,6 +70,19 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
         });
 
         ressortService = new RessortService(getActivity().getApplicationContext());
+
+        // ShakeDetector initialization
+        sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        shakeDetector = new ShakeDetector();
+        shakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+
+            @Override
+            public void onShake(int count) {
+                loadNews();
+            }
+        });
+
         loadNews();
     }
 
@@ -80,6 +100,18 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
         adapter.addAll(output);
         setListAdapter(adapter);
         newsLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        sensorManager.registerListener(shakeDetector, accelerometer, SensorManager.SENSOR_DELAY_UI);
+    }
+
+    @Override
+    public void onPause() {
+        sensorManager.unregisterListener(shakeDetector);
+        super.onPause();
     }
 }
 
