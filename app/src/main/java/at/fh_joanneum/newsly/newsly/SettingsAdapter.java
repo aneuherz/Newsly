@@ -30,12 +30,11 @@ public class SettingsAdapter<T extends Setting> extends ArrayAdapter<T> {
             final LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
             convertView = inflater.inflate(R.layout.setting_row, parent, false);
 
-            final TextView tvName = (TextView) convertView.findViewById(R.id.setting_name);
             final CheckBox cbActive = (CheckBox) convertView.findViewById(R.id.setting_active);
 
             final T setting = getItem(position);
 
-            tvName.setText(setting.getName());
+            cbActive.setText(setting.getName());
             if (setting.isActive()) {
                 cbActive.setChecked(true);
             } else {
