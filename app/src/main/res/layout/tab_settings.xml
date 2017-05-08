@@ -17,7 +17,7 @@
         android:textSize="14sp"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="Quellen"
+        android:text="Medien"
         android:textColor="@color/colorAccent3"
         android:background="@color/colorPrimaryDark"
         android:textStyle="normal"
