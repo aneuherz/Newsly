@@ -19,63 +19,57 @@ import at.fh_joanneum.newsly.newsly.db.entity.SourceSetting;
  */
 
 class RessortService {
-    private final Context context;
-    private Collection<RessortSetting> ressortSettings;
-    private Collection<SourceSetting> sourceSettings;
+    private final SourceSettingsRepository sourceSettingsRepository;
+    private final RessortSettingsRepository ressortSettingsRepository;
+    private final SourceRepository sourceRepository;
 
     RessortService(final Context context) {
-        this.context = context;
-        loadSettings();
-    }
-
-    private void loadSettings() {
-        SourceSettingsRepository sourceSettingsRepository = new SourceSettingsRepository(context);
-        sourceSettings = sourceSettingsRepository.findAllActiveSettings();
-
-        RessortSettingsRepository ressortSettingsRepository = new RessortSettingsRepository(context);
-        ressortSettings = ressortSettingsRepository.findAllActiveSettings();
+        this.sourceSettingsRepository = new SourceSettingsRepository(context);
+        this.ressortSettingsRepository = new RessortSettingsRepository(context);
+        this.sourceRepository = new SourceRepository(context);
     }
 
     public List<LinkSourceRessort> getAllFeasibleLinks() {
+        final Collection<SourceSetting> sourceSettings = sourceSettingsRepository.findAllActiveSettings();
+        final Collection<RessortSetting> ressortSettings = ressortSettingsRepository.findAllActiveSettings();
         final List<String> names = new ArrayList<>();
         for (SourceSetting setting : sourceSettings) {
             names.add(setting.getName());
         }
 
-        final SourceRepository sourceRepository = new SourceRepository(context);
         final List<Source> sources = sourceRepository.findAllSourceByNames(names);
 
         final List<LinkSourceRessort> linkSourceRessorts = new ArrayList<>();
         // @richi: einfach nicht beachten... war zu faul
         for (Source source : sources) {
             for (RessortSetting ressortSetting : ressortSettings) {
-                if (ressortSetting.getCategory() == null) {
+                if (ressortSetting.getCategory() == null || !ressortSetting.isActive()) {
                     continue;
                 }
                 switch (ressortSetting.getCategory()) {
                     case CULTURE:
-                        if(source.getCultureLink() != null)
-                          linkSourceRessorts.add(new LinkSourceRessort(source.getCultureLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if (source.getCultureLink() != null)
+                            linkSourceRessorts.add(new LinkSourceRessort(source.getCultureLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case ECONOMY:
-                        if(source.getEconomyLink() != null)
-                          linkSourceRessorts.add(new LinkSourceRessort(source.getEconomyLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if (source.getEconomyLink() != null)
+                            linkSourceRessorts.add(new LinkSourceRessort(source.getEconomyLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case EDUCATION:
-                        if(source.getEducationLink() != null)
-                          linkSourceRessorts.add(new LinkSourceRessort(source.getEducationLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if (source.getEducationLink() != null)
+                            linkSourceRessorts.add(new LinkSourceRessort(source.getEducationLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case LIFE:
-                        if(source.getLifeLink() != null)
-                          linkSourceRessorts.add(new LinkSourceRessort(source.getLifeLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if (source.getLifeLink() != null)
+                            linkSourceRessorts.add(new LinkSourceRessort(source.getLifeLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case POLITICS:
-                        if(source.getPoliticsLink() != null)
-                          linkSourceRessorts.add(new LinkSourceRessort(source.getPoliticsLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if (source.getPoliticsLink() != null)
+                            linkSourceRessorts.add(new LinkSourceRessort(source.getPoliticsLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case SPORT:
-                        if(source.getSportLink() != null)
-                          linkSourceRessorts.add(new LinkSourceRessort(source.getSportLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if (source.getSportLink() != null)
+                            linkSourceRessorts.add(new LinkSourceRessort(source.getSportLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     default:
                         throw new IllegalStateException("Requesting Unsupported Category");

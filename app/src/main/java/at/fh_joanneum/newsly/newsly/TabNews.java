@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
 
     private ListView listView;
     private RessortService ressortService;
+    private SwipeRefreshLayout newsLayout;
 
     @Nullable
     @Override
@@ -50,7 +52,22 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
                                             }
                                         }
         );
+
+
+        newsLayout = (SwipeRefreshLayout) getActivity().findViewById(R.id.news_layout);
+        newsLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadNews();
+            }
+        });
+
         ressortService = new RessortService(getActivity().getApplicationContext());
+        loadNews();
+    }
+
+    private void loadNews() {
+        newsLayout.setRefreshing(true);
         final List<LinkSourceRessort> links = ressortService.getAllFeasibleLinks();
 
         DownloadRssTask task = new DownloadRssTask(this);
@@ -59,8 +76,10 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
 
     @Override
     public void processFinish(List<RssEntry> output) {
+        adapter.clear();
         adapter.addAll(output);
         setListAdapter(adapter);
+        newsLayout.setRefreshing(false);
     }
 }
 

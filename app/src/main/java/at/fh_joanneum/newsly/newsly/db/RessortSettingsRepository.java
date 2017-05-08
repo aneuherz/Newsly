@@ -27,8 +27,8 @@ public class RessortSettingsRepository
     @Override
     public Collection<RessortSetting> findAllActiveSettings() {
         final List<RessortSetting> ressortSettings = new ArrayList<>();
-        final String query = "SELECT  * FROM " + SettingsDBHelper.TABLE_RESSORT_SETTINGS +
-                " WHERE " + SettingsDBHelper.COLUMN_SOURCE_SETTING_ACTIVE + " = 1";
+        final String query = "SELECT * FROM " + SettingsDBHelper.TABLE_RESSORT_SETTINGS +
+                " WHERE " + SettingsDBHelper.COLUMN_RESSORT_ACTIVE + " = 1";
         final SQLiteDatabase database = settingsHelper.getReadableDatabase();
 
         Cursor cursor = null;
@@ -49,6 +49,9 @@ public class RessortSettingsRepository
             if (cursor != null) {
                 cursor.close();
             }
+            if (database != null) {
+                database.close();
+            }
         }
         return ressortSettings;
     }
@@ -56,12 +59,20 @@ public class RessortSettingsRepository
     @Override
     public void updateState(final long id, final boolean active) {
         final SQLiteDatabase database = settingsHelper.getWritableDatabase();
+        try {
+            final ContentValues values = new ContentValues();
+            values.put(SettingsDBHelper.COLUMN_RESSORT_ACTIVE, active ? 1 : 0);
+            database.beginTransaction();
+            database.update(SettingsDBHelper.TABLE_RESSORT_SETTINGS, values,
+                    SettingsDBHelper.COLUMN_RESSORT_ID + " = ?",
+                    new String[]{String.valueOf(id)});
 
-        final ContentValues values = new ContentValues();
-        values.put(SettingsDBHelper.COLUMN_RESSORT_ACTIVE, active ? 1 : 0);
-        database.update(SettingsDBHelper.TABLE_RESSORT_SETTINGS, values,
-                SettingsDBHelper.COLUMN_RESSORT_ID + " = ?",
-                new String[]{String.valueOf(id)});
+            database.setTransactionSuccessful();
+            database.endTransaction();
+        } finally {
+            database.close();
+        }
+
     }
 
     @Override
@@ -90,6 +101,10 @@ public class RessortSettingsRepository
         } finally {
             if (cursor != null) {
                 cursor.close();
+            }
+
+            if (database != null) {
+                database.close();
             }
         }
         return ressortSettings;
