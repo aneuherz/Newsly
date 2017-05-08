@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:text="RESSORT | DERSTANDARD.AT"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent3"
         android:textSize="11sp"
         android:textStyle="bold" />
 
