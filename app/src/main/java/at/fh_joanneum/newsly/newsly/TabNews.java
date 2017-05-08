@@ -44,9 +44,7 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                             @Override
                                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                RssEntry entry = (RssEntry) parent.getItemAtPosition(position);
-
-                                                NewsWebViewActivity.CURRENT_RSS_ENTRY = entry;
+                                                NewsWebViewActivity.CURRENT_RSS_ENTRY = (RssEntry) parent.getItemAtPosition(position);
                                                 Intent intent = new Intent(getActivity(), NewsWebViewActivity.class);
                                                 startActivity(intent);
                                             }

@@ -4,7 +4,7 @@ package at.fh_joanneum.newsly.newsly.db.entity;
  * Created by edi on 07/05/2017.
  */
 
-public class SourceSetting {
+public class SourceSetting implements Setting {
 
     private String name;
     private long id;
@@ -14,6 +14,7 @@ public class SourceSetting {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -22,11 +23,17 @@ public class SourceSetting {
         this.id = id;
     }
 
+    @Override
     public long getId() {
         return id;
     }
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public boolean isActive() {
+        return active;
     }
 }

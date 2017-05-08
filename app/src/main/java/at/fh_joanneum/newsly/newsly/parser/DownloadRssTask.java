@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -60,10 +61,8 @@ public class DownloadRssTask extends AsyncTask<List<LinkSourceRessort>, Void, Li
                 allEntries.addAll(entries);
                 // Makes sure that the InputStream is closed after the app is
                 // finished using it.
-            } catch (XmlPullParserException e) {
-                 e.printStackTrace();
-            } catch (IOException e) {
-                 e.printStackTrace();
+            } catch (XmlPullParserException | IOException e) {
+                Log.e("RSS_PARSE", e.getMessage(), e);
             } finally {
                 if (stream != null) {
                     try {

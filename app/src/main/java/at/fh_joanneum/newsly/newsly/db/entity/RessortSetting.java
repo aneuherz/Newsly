@@ -6,11 +6,12 @@ import at.fh_joanneum.newsly.newsly.ressorts.RessortCategory;
  * Created by edi on 06/05/2017.
  */
 
-public class RessortSetting {
+public class RessortSetting implements Setting {
     private long id;
     private RessortCategory category;
     private boolean active;
 
+    @Override
     public long getId() {
         return id;
     }
@@ -27,8 +28,14 @@ public class RessortSetting {
         this.category = category;
     }
 
+    @Override
     public boolean isActive() {
         return active;
+    }
+
+    @Override
+    public String getName() {
+        return category.getValue();
     }
 
     public void setActive(boolean active) {

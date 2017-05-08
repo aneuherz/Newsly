@@ -97,7 +97,7 @@ public class RssEntry {
     }
 
     public String getFormattedDateAndAuthor() {
-        final DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        final DateFormat sdf = DateFormat.getDateTimeInstance();
 
         if (getPubDate() != null) {
             return sdf.format(getPubDate()) + ", " + getAuthor();

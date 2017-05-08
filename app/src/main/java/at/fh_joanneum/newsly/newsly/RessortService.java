@@ -3,6 +3,7 @@ package at.fh_joanneum.newsly.newsly;
 import android.content.Context;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import at.fh_joanneum.newsly.newsly.db.RessortSettingsRepository;
@@ -19,8 +20,8 @@ import at.fh_joanneum.newsly.newsly.db.entity.SourceSetting;
 
 class RessortService {
     private final Context context;
-    private List<RessortSetting> ressortSettings;
-    private List<SourceSetting> sourceSettings;
+    private Collection<RessortSetting> ressortSettings;
+    private Collection<SourceSetting> sourceSettings;
 
     RessortService(final Context context) {
         this.context = context;
@@ -29,10 +30,10 @@ class RessortService {
 
     private void loadSettings() {
         SourceSettingsRepository sourceSettingsRepository = new SourceSettingsRepository(context);
-        sourceSettings = sourceSettingsRepository.findAllActiveSourceSettings();
+        sourceSettings = sourceSettingsRepository.findAllActiveSettings();
 
         RessortSettingsRepository ressortSettingsRepository = new RessortSettingsRepository(context);
-        ressortSettings = ressortSettingsRepository.findAllActiveRessortSettings();
+        ressortSettings = ressortSettingsRepository.findAllActiveSettings();
     }
 
     public List<LinkSourceRessort> getAllFeasibleLinks() {

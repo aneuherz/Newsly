@@ -16,17 +16,15 @@ import at.fh_joanneum.newsly.newsly.parser.RssEntry;
 
 public class NewsWebViewActivity extends AppCompatActivity {
     public static RssEntry CURRENT_RSS_ENTRY = null;
-    private WebView webView;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_web);
-        webView = (WebView) findViewById(R.id.rssWebView);
+        WebView webView = (WebView) findViewById(R.id.rssWebView);
         webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(CURRENT_RSS_ENTRY.getLink());
-        TextView text = (TextView) findViewById(R.id.textHeaderWebView);
-        Typeface type = Typeface.createFromAsset(getAssets(),"fonts/Bringshoot.ttf");
-        text.setTypeface(type);
-        text.setTextSize(52);
+
+        ViewHelper.formatAppHeader(this);
     }
 }

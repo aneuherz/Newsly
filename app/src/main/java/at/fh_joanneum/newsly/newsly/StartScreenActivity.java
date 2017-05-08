@@ -15,11 +15,7 @@ public class StartScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_screen);
 
-        TextView text = (TextView) findViewById(R.id.textHeader);
-        Typeface type = Typeface.createFromAsset(getAssets(), "fonts/Bringshoot.ttf");
-        text.setTypeface(type);
-        text.setTextSize(52);
-
+        ViewHelper.formatAppHeader(this);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
 

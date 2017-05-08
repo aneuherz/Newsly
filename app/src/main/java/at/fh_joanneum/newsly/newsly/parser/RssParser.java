@@ -39,7 +39,7 @@ public class RssParser {
     }
 
     private List<RssEntry> readFeed(XmlPullParser parser) throws XmlPullParserException, IOException {
-        List<RssEntry> entries = new ArrayList();
+        List<RssEntry> entries = new ArrayList<>();
 
         parser.require(XmlPullParser.START_TAG, ns, "rss");
         while (parser.next() != XmlPullParser.END_TAG) {
