@@ -61,9 +61,9 @@ public class DownloadRssTask extends AsyncTask<List<LinkSourceRessort>, Void, Li
                 // Makes sure that the InputStream is closed after the app is
                 // finished using it.
             } catch (XmlPullParserException e) {
-                Log.e("Error", e.getStackTrace().toString());
+                 e.printStackTrace();
             } catch (IOException e) {
-                Log.e("Error", e.getStackTrace().toString());
+                 e.printStackTrace();
             } finally {
                 if (stream != null) {
                     try {

@@ -53,22 +53,28 @@ class RessortService {
                 }
                 switch (ressortSetting.getCategory()) {
                     case CULTURE:
-                        linkSourceRessorts.add(new LinkSourceRessort(source.getCultureLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if(source.getCultureLink() != null)
+                          linkSourceRessorts.add(new LinkSourceRessort(source.getCultureLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case ECONOMY:
-                        linkSourceRessorts.add(new LinkSourceRessort(source.getEconomyLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if(source.getEconomyLink() != null)
+                          linkSourceRessorts.add(new LinkSourceRessort(source.getEconomyLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case EDUCATION:
-                        linkSourceRessorts.add(new LinkSourceRessort(source.getEducationLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if(source.getEducationLink() != null)
+                          linkSourceRessorts.add(new LinkSourceRessort(source.getEducationLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case LIFE:
-                        linkSourceRessorts.add(new LinkSourceRessort(source.getLifeLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if(source.getLifeLink() != null)
+                          linkSourceRessorts.add(new LinkSourceRessort(source.getLifeLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case POLITICS:
-                        linkSourceRessorts.add(new LinkSourceRessort(source.getPoliticsLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if(source.getPoliticsLink() != null)
+                          linkSourceRessorts.add(new LinkSourceRessort(source.getPoliticsLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     case SPORT:
-                        linkSourceRessorts.add(new LinkSourceRessort(source.getSportLink(), source.getName(), ressortSetting.getCategory().getValue()));
+                        if(source.getSportLink() != null)
+                          linkSourceRessorts.add(new LinkSourceRessort(source.getSportLink(), source.getName(), ressortSetting.getCategory().getValue()));
                         break;
                     default:
                         throw new IllegalStateException("Requesting Unsupported Category");

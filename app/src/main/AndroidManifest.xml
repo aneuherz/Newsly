@@ -25,8 +25,12 @@
         <activity
             android:name=".NewsWebViewActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".RessortSettingsActivity" />
-        <activity android:name=".SourcesSettingsActivity"></activity>
+        <activity android:name=".RessortSettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity android:name=".SourcesSettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
