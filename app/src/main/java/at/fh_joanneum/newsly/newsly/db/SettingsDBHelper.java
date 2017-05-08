@@ -131,16 +131,11 @@ public class SettingsDBHelper extends SQLiteOpenHelper {
                 "http://www.salzburg.com/nachrichten/kategorie/8/rss.xml"
         );
 
-        Source heute = new Source(
-
-        );
-
         insertSource(db, derStandard);
         insertSource(db, apa);
         insertSource(db, kurier);
         insertSource(db, diePresse);
         insertSource(db, salzburgerNachrichten);
-        insertSource(db, heute);
     }
 
     private void insertSource(SQLiteDatabase db, Source source) {
