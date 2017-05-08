@@ -70,15 +70,19 @@ public class RssArrayAdapter extends ArrayAdapter<RssEntry> {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            String htmlText = Html.fromHtml(entry.getDescription(), Html.FROM_HTML_MODE_COMPACT, Images, null).toString();
+            String htmlText = formatDescription(Html.fromHtml(entry.getDescription(), Html.FROM_HTML_MODE_COMPACT, Images, null).toString());
             viewHolder.txtDescription.setText(stripHtml(htmlText));
         } else {
-            String htmlText = Html.fromHtml(entry.getDescription(), Images, null).toString();
+            String htmlText = formatDescription(Html.fromHtml(entry.getDescription(), Images, null).toString());
             viewHolder.txtDescription.setText(stripHtml(htmlText));
         }
 
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    private String formatDescription(String s) {
+        return s.substring(0, s.length() > 250 ? 250 : s.length()) + " ...";
     }
 
     private Html.ImageGetter Images = new Html.ImageGetter() {

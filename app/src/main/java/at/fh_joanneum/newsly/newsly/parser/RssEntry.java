@@ -100,9 +100,14 @@ public class RssEntry {
         final DateFormat sdf = DateFormat.getDateTimeInstance();
 
         if (getPubDate() != null) {
+            if(getAuthor() == null || getAuthor().equals("null") || getAuthor().equals(""))
+            {
+                return sdf.format(getPubDate());
+            }
             return sdf.format(getPubDate()) + ", " + getAuthor();
         }
 
-        return "";
+        return getAuthor();
     }
+
 }
