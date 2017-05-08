@@ -14,7 +14,7 @@ import at.fh_joanneum.newsly.newsly.ressorts.RessortCategory;
 
 public class SettingsDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SETTINGS.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 6;
 
     public static final String TABLE_SOURCE = "Source";
     public static final String COLUMN_SOURCE_ID = "_id";
@@ -81,7 +81,7 @@ public class SettingsDBHelper extends SQLiteOpenHelper {
             db.insert(TABLE_RESSORT_SETTINGS, null, values);
         }
 
-        Source derStandard = new Source("standard",
+        Source derStandard = new Source("derStandard.at",
                 "http://derStandard.at/?page=rss&ressort=Sport",
                 null,
                 "http://derStandard.at/?page=rss&ressort=Wirtschaft",
@@ -89,7 +89,7 @@ public class SettingsDBHelper extends SQLiteOpenHelper {
                 "http://derStandard.at/?page=rss&ressort=Bildung",
                 "http://derStandard.at/?page=rss&ressort=Kultur");
 
-        Source kleineZeitung = new Source("kleineZeitung",
+        Source kleineZeitung = new Source("kleinezeitung.at",
                 "http://www.kleinezeitung.at/rss/sport",
                 "http://www.kleinezeitung.at/rss/politik",
                 "http://www.kleinezeitung.at/rss/wirtschaft",

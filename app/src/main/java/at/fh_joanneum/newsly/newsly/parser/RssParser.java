@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import at.fh_joanneum.newsly.newsly.db.entity.LinkSourceRessort;
+
 /**
  * Created by aneuh on 29.04.2017.
  */
@@ -21,7 +23,10 @@ import java.util.Locale;
 public class RssParser {
     private static final String ns = null;
 
-    public List parse(InputStream in) throws XmlPullParserException, IOException {
+    private LinkSourceRessort _linkSourceRessort;
+    public List parse(InputStream in, LinkSourceRessort linkSourceRessort) throws XmlPullParserException, IOException {
+        _linkSourceRessort = linkSourceRessort;
+
         try {
             XmlPullParser parser = Xml.newPullParser();
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -95,7 +100,7 @@ public class RssParser {
                 skip(parser);
             }
         }
-        return new RssEntry(title, author, link, description, pubDate);
+        return new RssEntry(title, author, link, description, pubDate, _linkSourceRessort.getRessort(), _linkSourceRessort.getSource());
     }
 
     private Date readDateTime(XmlPullParser parser, String tag) throws IOException, XmlPullParserException {

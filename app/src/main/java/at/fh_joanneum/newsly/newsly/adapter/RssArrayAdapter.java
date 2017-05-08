@@ -62,7 +62,7 @@ public class RssArrayAdapter extends ArrayAdapter<RssEntry> {
 
         convertView.setTag(viewHolder);
 
-        viewHolder.txtRessortAndSource.setText(entry.getRessort() + " | " + entry.getSource());
+        viewHolder.txtRessortAndSource.setText((entry.getRessort() + " | " + entry.getSource()).toUpperCase());
 
         viewHolder.txtTitle.setText(entry.getTitle());
         viewHolder.txtDateAndAuthor.setText(entry.getFormattedDateAndAuthor());

@@ -32,10 +32,12 @@ public class RessortSettingsRepository {
 
         final Cursor cursor = database.rawQuery(query, null);
 
-        final RessortSetting ressortSetting = new RessortSetting();
+
 
         if (cursor.moveToFirst()) {
             do {
+                final RessortSetting ressortSetting = new RessortSetting();
+
                 ressortSetting.setId(cursor.getLong(0));
                 ressortSetting.setCategory(RessortCategory.getRessortCategory(cursor.getString(1)));
                 ressortSetting.setActive(cursor.getInt(2) == 1);

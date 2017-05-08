@@ -45,12 +45,14 @@ public class SourceRepository {
                 final Source source = new Source();
                 source.setId(cursor.getLong(0));
                 source.setName(cursor.getString(1));
-                source.setCultureLink(cursor.getString(2));
-                source.setSportLink(cursor.getString(3));
+                source.setSportLink(cursor.getString(2));
+                source.setPoliticsLink(cursor.getString(3));
                 source.setEconomyLink(cursor.getString(4));
-                source.setEducationLink(cursor.getString(5));
-                source.setLifeLink(cursor.getString(6));
-                source.setPoliticsLink(cursor.getString(7));
+                source.setLifeLink(cursor.getString(5));
+                source.setEducationLink(cursor.getString(6));
+                source.setCultureLink(cursor.getString(7));
+
+
                 sources.add(source);
             } while (cursor.moveToNext());
         }

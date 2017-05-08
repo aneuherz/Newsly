@@ -1,8 +1,6 @@
 package at.fh_joanneum.newsly.newsly.parser;
 
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -11,22 +9,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-import at.fh_joanneum.newsly.newsly.R;
 import at.fh_joanneum.newsly.newsly.db.entity.LinkSourceRessort;
 
 /**
  * Created by aneuh on 29.04.2017.
  */
 
-public class DownloadRssTask extends AsyncTask<LinkSourceRessort, Void, List<RssEntry>> {
-    @Override
-    protected List<RssEntry> doInBackground(LinkSourceRessort... urls) {
-        return loadXmlFromNetwork(urls[0]);
-    }
+public class DownloadRssTask extends AsyncTask<List<LinkSourceRessort>, Void, List<RssEntry>> {
 
     public interface AsyncResponse {
         void processFinish(List<RssEntry> output);
@@ -39,41 +33,60 @@ public class DownloadRssTask extends AsyncTask<LinkSourceRessort, Void, List<Rss
     }
 
     @Override
+    protected List<RssEntry> doInBackground(List<LinkSourceRessort>... params) {
+        return loadXmlFromNetwork(params[0]);
+    }
+
+    @Override
     protected void onPostExecute(List<RssEntry> result) {
         delegate.processFinish(result);
     }
 
-    public List<RssEntry> loadXmlFromNetwork(LinkSourceRessort linkSourceRessort) {
-        InputStream stream = null;
-        // Instantiate the parser
-        RssParser rssParser = new RssParser();
-        List<RssEntry> entries = null;
+    public List<RssEntry> loadXmlFromNetwork(List<LinkSourceRessort> linkSourceRessorts) {
+        List<RssEntry> allEntries = new ArrayList<>();
 
-        try {
-            stream = downloadUrl(linkSourceRessort.getLink());
-            entries = rssParser.parse(stream);
-            for (RssEntry entry :
-                    entries) {
-                entry.setSource(linkSourceRessort.getSource());
-                entry.setRessort(linkSourceRessort.getRessort());
-            }
-            // Makes sure that the InputStream is closed after the app is
-            // finished using it.
-        } catch (XmlPullParserException e) {
-            Log.e("Error", e.getStackTrace().toString());
-        } catch (IOException e) {
-            Log.e("Error", e.getStackTrace().toString());
-        } finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+        for (LinkSourceRessort linkSourceRessort:
+             linkSourceRessorts) {
+
+            InputStream stream = null;
+
+            // Instantiate the parser
+            RssParser rssParser = new RssParser();
+
+            try {
+                stream = downloadUrl(linkSourceRessort.getLink());
+                List<RssEntry> entries = rssParser.parse(stream, linkSourceRessort);
+
+                allEntries.addAll(entries);
+                // Makes sure that the InputStream is closed after the app is
+                // finished using it.
+            } catch (XmlPullParserException e) {
+                Log.e("Error", e.getStackTrace().toString());
+            } catch (IOException e) {
+                Log.e("Error", e.getStackTrace().toString());
+            } finally {
+                if (stream != null) {
+                    try {
+                        stream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
         }
 
-        return entries;
+        Collections.sort(allEntries, new Comparator<RssEntry>() {
+
+            @Override
+            public int compare(RssEntry o1, RssEntry o2) {
+
+                return o2.getPubDate().compareTo(o1.getPubDate());
+            }
+
+        });
+
+        return allEntries;
     }
 
     private InputStream downloadUrl(String urlString) throws IOException {

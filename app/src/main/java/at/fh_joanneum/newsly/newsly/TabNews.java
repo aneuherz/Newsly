@@ -54,10 +54,9 @@ public class TabNews extends ListFragment implements DownloadRssTask.AsyncRespon
         );
         ressortService = new RessortService(getActivity().getApplicationContext());
         final List<LinkSourceRessort> links = ressortService.getAllFeasibleLinks();
-        for (LinkSourceRessort link : links) {
-            DownloadRssTask task = new DownloadRssTask(this);
-            task.execute(link);
-        }
+
+        DownloadRssTask task = new DownloadRssTask(this);
+        task.execute(links);
     }
 
     @Override

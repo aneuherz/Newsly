@@ -1,6 +1,7 @@
 package at.fh_joanneum.newsly.newsly.parser;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -17,13 +18,16 @@ public class RssEntry {
     private String ressort;
     private String source;
 
-    public RssEntry(String title, String author, String link, String description, Date pubDate) {
+    public RssEntry(String title, String author, String link, String description, Date pubDate, String ressort, String source) {
         this.title = title;
         this.author = author;
         this.link = link;
         this.description = description;
         this.pubDate = pubDate;
+        this.ressort = ressort;
+        this.source = source;
     }
+
 
     @Override
     public String toString() {
@@ -93,10 +97,10 @@ public class RssEntry {
     }
 
     public String getFormattedDateAndAuthor() {
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
+        final DateFormat sdf = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
         if (getPubDate() != null) {
-            return dateFormat.format(getPubDate()) + ", " + getAuthor();
+            return sdf.format(getPubDate()) + ", " + getAuthor();
         }
 
         return "";

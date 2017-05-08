@@ -8,12 +8,12 @@ import java.util.Map;
  */
 
 public enum RessortCategory {
-    SPORT("sport"),
-    POLITICS("politics"),
-    ECONOMY("economy"),
-    LIFE("life"),
-    EDUCATION("education"),
-    CULTURE("culture");
+    SPORT("Sport"),
+    POLITICS("Politik"),
+    ECONOMY("Wirtschaft"),
+    LIFE("Leben"),
+    EDUCATION("Bildung"),
+    CULTURE("Kultur");
 
     private final String value;
 
