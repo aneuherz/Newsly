@@ -14,7 +14,7 @@ import at.fh_joanneum.newsly.newsly.ressorts.RessortCategory;
 
 public class SettingsDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "SETTINGS.db";
-    private static final int DATABASE_VERSION = 6;
+    private static final int DATABASE_VERSION = 8;
 
     public static final String TABLE_SOURCE = "Source";
     public static final String COLUMN_SOURCE_ID = "_id";
@@ -83,7 +83,7 @@ public class SettingsDBHelper extends SQLiteOpenHelper {
 
         Source derStandard = new Source("derStandard.at",
                 "http://derStandard.at/?page=rss&ressort=Sport",
-                null,
+                "http://derstandard.at/?page=rss&ressort=Seite1&searchText=Politik",
                 "http://derStandard.at/?page=rss&ressort=Wirtschaft",
                 "http://derStandard.at/?page=rss&ressort=Lifestyle",
                 "http://derStandard.at/?page=rss&ressort=Bildung",
@@ -96,8 +96,51 @@ public class SettingsDBHelper extends SQLiteOpenHelper {
                 "http://www.kleinezeitung.at/rss/leben",
                 null,
                 null);
+
+        Source apa = new Source("ots.at (apa)",
+                null,
+                "https://www.ots.at/rss/politik",
+                "https://www.ots.at/rss/wirtschaft",
+                null,
+                null,
+                "https://www.ots.at/rss/kultur");
+
+        Source kurier = new Source("kurier.at",
+                null,
+                "https://kurier.at/politik/xml/rssd",
+                "https://kurier.at/wirtschaft/xml/rssd",
+                "https://kurier.at/stars/xml/rssd",
+                null,
+                "https://kurier.at/kultur/xml/rssd");
+
+        Source diePresse = new Source("diePresse.at",
+                null,
+                "http://diepresse.com/feeds/rsssearch.do?searchText=Politik",
+                "http://diepresse.com/feeds/rsssearch.do?searchText=Wirtschaft",
+                null,
+                "http://diepresse.com/feeds/rsssearch.do?searchText=Bildung",
+                "http://diepresse.com/feeds/rsssearch.do?searchText=Kultur");
+
+        Source salzburgerNachrichten = new Source(
+                "salzburg.com (Salzburger Nachrichten)",
+                "http://www.salzburg.com/nachrichten/kategorie/6/rss.xml",
+                "http://www.salzburg.com/nachrichten/kategorie/7/rss.xml",
+                "http://www.salzburg.com/nachrichten/kategorie/5/rss.xml",
+                "http://www.salzburg.com/nachrichten/kategorie/57/rss.xml",
+                null,
+                "http://www.salzburg.com/nachrichten/kategorie/8/rss.xml"
+        );
+
+        Source heute = new Source(
+
+        );
+
         insertSource(db, derStandard);
-        insertSource(db, kleineZeitung);
+        insertSource(db, apa);
+        insertSource(db, kurier);
+        insertSource(db, diePresse);
+        insertSource(db, salzburgerNachrichten);
+        insertSource(db, heute);
     }
 
     private void insertSource(SQLiteDatabase db, Source source) {
